@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "valiant-splicer-489013-q2",
+  "private_key_id": "05adb3236bf5229f649f069678ad3e2579d00f33",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/imAvO9n2SJbR\nlRzqyeiz78WnqZ1Pgzq0nRx4zTfvcbLG0gjlcVA9rK0SilFqrjBrnQ8pLCvEl1pV\n19vNdVUsl2UYkGd1pEO6Ivma1yVuNxfLzc5eA1g8iWhxPXbk4bDITay1sgRoJIVk\nOAeTEk+nGhOipgdNSxPlXvMXt9hZOEiDM4keSzurGts+ouZFPNrNfKD0UFolDO4e\nK2JjrsNmAzaJNPlvgcC+moybdkXT0l9uBDESYhpri1m7Y6BsxXxJ0AcvGfD0MGk4\naWQ9Oje1tuKZ6PHVpMJkD7QN/MhmRiOSGG6W0Amgeqm7HjZZy4EQ2qvSKJMVQRw+\nVX/9ZDQfAgMBAAECggEABxxa/8XoDJWbS8KOZUUDp5JyMww/89C6YDQo928e8Xu2\nGF15yRLQ2MlNT4/k/+HhmE0nX+7s3QqFZwRxe4oslFA2h5fsz1g+z202+QGduR7A\nemd0jtbu8qhjQTj37f1W88i2bbRjJ36bmSHfXh1i6aA1NGeXg84SugQxYCMKHB3D\nTqnC2a10apEN3ph2jkuckSOyyVWTHSwHlo6Y6VHyao7ur1aO0+iQXFM14BBaw+/c\n/k56SaZZTI02P6HwtLCFrDgPZrxYzQLBvmBFZWqpRRVDAxxxOuGEjoOx1JpyIc9S\nxkqzYWQtzxlRadFyyndTlIW4NrDYhz910aW05YBTIQKBgQDukYtS1OpNwP3GVnGS\nAROVW+IPzNO6HXT5DG27O8eONHAdoW8U+HdIv+7lOOhaZ6yxwZt1p0O3mP7RnfKd\n9alDtEVwn1EbvCTl/QJfwwPEm15bhHQqkZqWwxRP3h0qPOH3xH1t0xOobBYyuiuU\nAi55l3PDBFRbPCh3AeV+442LDwKBgQDNiSqhdaTkO2Yp4fMg1tH0B56SuqbFaM05\nS5eeiVoHymwj7MxLHEzVjAal4g6EK8qrqAunupkT6wLs06mVE1Z5iDTftgF9bYsQ\nojNg5LButej8DJHjbkJqweOuOv9sDNQrNlq/hMFowFJQKcmjuBZytY5lBolHTjUM\nPCv5m8MF8QKBgQDPVtMdlEpmdTqZq/tch277ujWIwd2pvXwyDyk3NsdCwjRGrE0c\njq0tHxKDSag3Gi+u9bMk19A0utWMXJfFzQHlA8HuFaiqUCRJdlEf5R9bOiURqNZF\nQPJ34OfAWixCz1McwTq5vl8xW28Xe1HweszlhElpzlN6T5hjhdRtKVuU5QKBgQCq\njtjBg06B1ojA2K9Y4Or5BhmgySL7Tix/DyuSc4gyTtfOOAKPkbxwuPILVbuWEoDs\nUVbaqQ2+aZbT0BE5lAJ+d3jo66/w1aZA91iLXzrJpEriXcvyXtzemmbFfk/W6g5m\njYRgyVl2A6JKw2KAaZK3PdIcI4Bnm46JyKT1TTxZAQKBgGftYhQjmhS9iKiQxfMd\nOTZSsDiNzf0Q0sDI0B94HUVdDy3yPIe1vGoKD0/rlHuOlC/W14YBPgEeHd9oc6c0\nr8rDio0MLBqMKRBZS0ujaf0kYgPCh2KIsWybZMQ7ZWcCy90nNwTb/nN90x0hXVdP\nJUCfugqraxJeozYhESOlhMT7\n-----END PRIVATE KEY-----\n",
+  "client_email": "codingtracker-bot@valiant-splicer-489013-q2.iam.gserviceaccount.com",
+  "client_id": "111421743749779124838",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/codingtracker-bot%40valiant-splicer-489013-q2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

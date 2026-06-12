@@ -1,0 +1,8 @@
+flask>=3.0
+flask-login>=0.6
+werkzeug>=3.0
+requests>=2.31
+pandas>=2.0
+gspread>=6.0
+google-auth>=2.20
+gunicorn>=21.0
