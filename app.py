@@ -1,12 +1,12 @@
 """
-DSA Tracker v3
+OptionsDSA Tracker v3
 ──────────────
 Fixes: rate limiter, secret key, DB patterns, auto-sync stability
 New:   LeetCode password login, daily challenges, mentor mode,
        custom problems (admin), separate admin login,
        platform checkboxes, auto Google Sheet creation, admin analytics
 """
-
+from selenium.webdriver.chrome.options import Options
 from flask import jsonify
 try:
     from selenium import webdriver
@@ -971,9 +971,15 @@ def leetcode_connect():
     if webdriver is None or Service is None or ChromeDriverManager is None:
         return jsonify({"success": False, "message": "Browser automation dependencies are not installed."}), 503
 
-    driver = webdriver.Chrome(
-        service=Service(ChromeDriverManager().install())
-    )
+    options = Options()
+
+    options.binary_location = "/usr/bin/chromium"
+
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+
+    driver = webdriver.Chrome(options=options)
 
 
     driver.get("https://leetcode.com/accounts/login/")
