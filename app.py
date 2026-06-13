@@ -129,6 +129,7 @@ WHERE user_id=?
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -978,15 +979,27 @@ def connect_leetcode():
 
     data = request.get_json()
 
-    session_cookie = data.get("session")
-    csrf_token = data.get("csrf")
+    if not data:
+        return jsonify({
+            "success": False,
+            "message": "No data received"
+        }), 400
+
+    session_cookie = data.get("session", "")
+    csrf_token = data.get("csrf", "")
+
+    if not session_cookie or not csrf_token:
+        return jsonify({
+            "success": False,
+            "message": "Missing cookies"
+        }), 400
 
     with get_db() as db:
         db.execute("""
-        UPDATE users
-        SET lc_session_cookie=?,
-            lc_csrf_token=?
-        WHERE id=?
+            UPDATE users
+            SET lc_session_cookie=?,
+                lc_csrf_token=?
+            WHERE id=?
         """, (
             session_cookie,
             csrf_token,
