@@ -1395,9 +1395,16 @@ def admin_delete(uid):
     with get_db() as db:
         u = db.execute("SELECT username FROM users WHERE id=?", (uid,)).fetchone()
         if u:
-            for tbl in ["submissions","follows","login_history","sync_logs",
-                        "daily_challenges","mentor_assignments"]:
-                db.execute(f"DELETE FROM {tbl} WHERE user_id=?", (uid,))
+            db.execute("DELETE FROM submissions WHERE user_id=?", (uid,))
+            db.execute("DELETE FROM login_history WHERE user_id=?", (uid,))
+            db.execute("DELETE FROM sync_logs WHERE user_id=?", (uid,))
+            db.execute("DELETE FROM daily_challenges WHERE user_id=?", (uid,))
+            db.execute("DELETE FROM mentor_assignments WHERE user_id=?", (uid,))
+
+            db.execute("DELETE FROM follows WHERE follower_id=?", (uid,))
+            db.execute("DELETE FROM follows WHERE following_id=?", (uid,))
+
+            db.execute("DELETE FROM users WHERE id=?", (uid,))
             db.execute("DELETE FROM follows WHERE following_id=?", (uid,))
             db.execute("DELETE FROM users WHERE id=?", (uid,))
             db.commit()
