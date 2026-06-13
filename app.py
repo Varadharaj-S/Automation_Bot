@@ -6,6 +6,7 @@ New:   LeetCode password login, daily challenges, mentor mode,
        custom problems (admin), separate admin login,
        platform checkboxes, auto Google Sheet creation, admin analytics
 """
+from flask_cors import CORS
 from selenium.webdriver.chrome.options import Options
 from flask import jsonify
 try:
@@ -130,6 +131,7 @@ WHERE user_id=?
 
 # ── App ───────────────────────────────────────────────────────────────────────
 app = Flask(__name__)
+CORS(app)
 # SECURITY: load from env, generate random fallback (never hardcoded)
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
@@ -964,86 +966,40 @@ def settings():
 
 #---leetcode connect-------------------------------------------------------------
 
-@app.route("/leetcode/connect", methods=["POST"])
+@app.route("/api/connect_leetcode", methods=["POST"])
 @login_required
-def leetcode_connect():
+def connect_leetcode():
 
-    if webdriver is None or Service is None or ChromeDriverManager is None:
-        return jsonify({"success": False, "message": "Browser automation dependencies are not installed."}), 503
+    data = request.get_json()
 
-    options = Options()
+    session_cookie = data.get("session")
+    csrf_token = data.get("csrf")
 
-    options.binary_location = "/usr/bin/chromium"
-
-    options.add_argument("--headless=new")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-
-    driver = webdriver.Chrome(options=options)
-
-
-    driver.get("https://leetcode.com/accounts/login/")
-
-    for _ in range(120):
-
-        cookies = driver.get_cookies()
-        names = [c["name"] for c in cookies]
-
-        if "LEETCODE_SESSION" in names:
-            break
-
-        time.sleep(1)
-
-    if "LEETCODE_SESSION" not in names:
-        driver.quit()
-
+    if not session_cookie or not csrf_token:
         return jsonify({
-        "success": False,
-        "message": "Login timeout. Please try again."
-    })
-    lc_session = None
-
-    csrf_token = None
-
-    for cookie in cookies:
-
-        if cookie["name"] == "LEETCODE_SESSION":
-            lc_session = cookie["value"]
-
-        elif cookie["name"] == "csrftoken":
-            csrf_token = cookie["value"]
-
-    if lc_session and csrf_token:
-
-        with get_db() as db:
-            db.execute(
-                """
-                UPDATE users
-                SET lc_session_cookie=?,
-                    lc_csrf_token=?
-                WHERE id=?
-                """,
-                (
-                    lc_session,
-                    csrf_token,
-                    current_user.id
-                )
-            )
-            db.commit()
-
-        driver.quit()
-
-        return jsonify({
-            "success": True,
-            "message": "LeetCode Connected"
+            "success": False,
+            "message": "Missing cookies"
         })
 
-    driver.quit()
+    with get_db() as db:
+        db.execute("""
+        UPDATE users
+        SET lc_session_cookie=?,
+            lc_csrf_token=?
+        WHERE id=?
+        """, (
+            session_cookie,
+            csrf_token,
+            current_user.id
+        ))
+
+        db.commit()
 
     return jsonify({
-        "success": False,
-        "message": "Login Failed"
+        "success": True,
+        "message": "LeetCode Connected"
     })
+
 # ── Sync ──────────────────────────────────────────────────────────────────────
 
 @app.route("/sync", methods=["POST"])
