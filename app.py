@@ -6,7 +6,6 @@ New:   LeetCode password login, daily challenges, mentor mode,
        custom problems (admin), separate admin login,
        platform checkboxes, auto Google Sheet creation, admin analytics
 """
-from flask_cors import CORS
 from selenium.webdriver.chrome.options import Options
 from flask import jsonify
 try:
@@ -130,8 +129,15 @@ WHERE user_id=?
 
 
 # ── App ───────────────────────────────────────────────────────────────────────
+from flask_cors import CORS
+
 app = Flask(__name__)
-CORS(app)
+
+CORS(
+    app,
+    resources={r"/api/*": {"origins": "*"}},
+    supports_credentials=True
+)
 # SECURITY: load from env, generate random fallback (never hardcoded)
 app.secret_key = os.environ.get("SECRET_KEY") or secrets.token_hex(32)
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
@@ -975,12 +981,6 @@ def connect_leetcode():
     session_cookie = data.get("session")
     csrf_token = data.get("csrf")
 
-    if not session_cookie or not csrf_token:
-        return jsonify({
-            "success": False,
-            "message": "Missing cookies"
-        })
-
     with get_db() as db:
         db.execute("""
         UPDATE users
@@ -992,12 +992,11 @@ def connect_leetcode():
             csrf_token,
             current_user.id
         ))
-
         db.commit()
 
     return jsonify({
         "success": True,
-        "message": "LeetCode Connected"
+        "message": "LeetCode Connected Successfully"
     })
 
 # ── Sync ──────────────────────────────────────────────────────────────────────
