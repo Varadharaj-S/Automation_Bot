@@ -336,7 +336,7 @@ def init_db():
                  enabled_platforms,created_at)
                 VALUES (?,?,?,1,1,'active',?,?)
             """, ("admin","admin@dsatracker.local",
-                  generate_password_hash("admin123"),
+                  generate_password_hash("varun@2007"),
                   '["Codeforces","LeetCode","AtCoder"]',
                   datetime.now().isoformat()))
         db.commit()
