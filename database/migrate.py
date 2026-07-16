@@ -166,6 +166,7 @@ def main():
         apply_sql_file(db, os.path.join(HERE, "migrations", "0005_contest_result_sync.sql"))
         apply_sql_file(db, os.path.join(HERE, "migrations", "0006_contest_sync_cooldown.sql"))
         apply_sql_file(db, os.path.join(HERE, "migrations", "0007_contest_problems_db_sync.sql"))
+        apply_sql_file(db, os.path.join(HERE, "migrations", "0008_contest_sync_log.sql"))   
         apply_sql_file(db, os.path.join(HERE, "migrations", "0009_sheet_dirty_flag.sql"))
 
         print("Phase 1 migration complete.")
