@@ -1,0 +1,22 @@
+-- =============================================================================
+-- DSA Tracker v4 — Migration 0009: sheet_dirty flag on users
+-- =============================================================================
+-- normal_sync.py's sync_user_data() used to rebuild+unmerge+remerge each
+-- user's whole Google Sheet tab on EVERY /sync call, even when nothing new
+-- was fetched — needed so a previously-failed sheet write (or leftover
+-- merged cells hiding rows) would self-heal instead of staying broken
+-- forever. But doing the full unmerge/clear/append/regroup cycle on every
+-- single sync, regardless of whether anything changed, wastes Sheets API
+-- quota and adds several seconds of round-trip time to syncs that have
+-- nothing to do.
+--
+-- sheet_dirty tracks "does this user's sheet tab need a full rebuild".
+-- Defaults to TRUE so every existing user gets exactly one guaranteed
+-- rebuild right after this upgrade (cleans up any stale merges left by the
+-- old code), then flips to FALSE once a rebuild succeeds. It's set back to
+-- TRUE whenever new problems are inserted, or a rebuild attempt fails, so
+-- the "self-heal on next sync" behavior is preserved without paying the
+-- full cost when the sheet is already known to be in sync.
+-- =============================================================================
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS sheet_dirty BOOLEAN NOT NULL DEFAULT TRUE;
