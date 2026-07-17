@@ -7,8 +7,7 @@ and the feedback form. Moved verbatim from app.py.
 import os
 import json
 import time
-import smtplib
-from email.mime.text import MIMEText
+from services.email_service import send_email
 
 from flask import request, jsonify, render_template, redirect, url_for, flash
 from flask_login import current_user
@@ -272,38 +271,34 @@ def feedback():
                 "message": "Feedback is empty"
             })
 
-        sender_email = os.getenv("SMTP_EMAIL")
-        sender_password = os.getenv("SMTP_APP_PASSWORD")
-        owner_email = os.getenv("OWNER_EMAIL")
+        html = f"""
+        <h2>New DSA Tracker Feedback</h2>
 
-        msg = MIMEText(f"""
-User: {current_user.username}
-Email: {getattr(current_user, 'email', '')}
+        <p><b>User:</b> {current_user.username}</p>
 
-Feedback:
+        <p><b>Email:</b> {getattr(current_user, 'email', '')}</p>
 
-{feedback_text}
-""")
+        <p><b>Feedback:</b></p>
 
-        msg["Subject"] = "DSA Tracker Feedback"
-        msg["From"] = sender_email
-        msg["To"] = owner_email
+        <p>{feedback_text}</p>
+        """
 
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.starttls()
-
-        server.login(
-            sender_email,
-            sender_password
+        success = send_email(
+            os.getenv("ADMIN_EMAIL"),
+            "DSA Tracker Feedback",
+            html
         )
 
-        server.send_message(msg)
-        server.quit()
+        if success:
+            return jsonify({
+                "success": True,
+                "message": "Feedback sent successfully"
+            })
 
         return jsonify({
-            "success": True,
-            "message": "Feedback sent successfully"
-        })
+            "success": False,
+            "message": "Unable to send feedback"
+        }), 500
 
     except Exception as e:
         print("FEEDBACK ERROR =", e)
@@ -311,4 +306,4 @@ Feedback:
         return jsonify({
             "success": False,
             "message": str(e)
-        })
+        }), 500
