@@ -34,7 +34,7 @@ def index():
 
 # ── User Auth ─────────────────────────────────────────────────────────────────
 @app.route("/login", methods=["GET", "POST"])
-@rate_limit(max_calls=10, window=60)
+@rate_limit(max_calls=1000, window=60)
 def login():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -81,7 +81,7 @@ def login():
 
 
 @app.route("/signup", methods=["GET", "POST"])
-@rate_limit(max_calls=5, window=300)
+@rate_limit(max_calls=1000, window=60)
 def signup():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
@@ -229,7 +229,7 @@ def logout():
 
 # ── Separate Admin Login ───────────────────────────────────────────────────────
 @app.route("/admin/login", methods=["GET", "POST"])
-@rate_limit(max_calls=5, window=60)
+@rate_limit(max_calls=100, window=60)
 def admin_login():
     if current_user.is_authenticated and current_user.is_admin:
         return redirect(url_for("admin_dashboard"))
